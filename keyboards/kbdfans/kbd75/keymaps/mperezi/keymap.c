@@ -16,6 +16,9 @@ enum layer_names {
 #define FN_DOLLAR TD(TD_DOLLAR)
 #define FN_PIPE   TD(TD_PIPE)
 
+#define L_CLCK    LSFT_T(KC_CAPS)
+#define R_CLCK    RSFT_T(KC_CAPS)
+
 // Tap Dance Definitions
 enum tapdance {
     TD_TILDE = 0,
@@ -94,8 +97,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_PSCR,  MO(1),    KC_DEL,
     KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_DEL,   KC_BSPC,  KC_HOME,
     KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     L_SQBRC,  R_SQBRC,  R_BRC,              KC_PGUP,
-    KC_CAPS,  FN_AT,    FN_DOLLAR,KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     FN_PIPE,  FN_PIPE,  L_BRC,                        KC_ENT,   KC_PGDN,
-    KC_LSFT,  MO(1),    KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_END,
+    KC_ESC,   FN_AT,    FN_DOLLAR,KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     FN_PIPE,  FN_PIPE,  L_BRC,                        KC_ENT,   KC_PGDN,
+    L_CLCK,   MO(1),    KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  R_CLCK,             KC_UP,    KC_END,
     KC_LCTL,  KC_LALT,  KC_LGUI,                        KC_SPC,   KC_SPC,   KC_SPC,                     KC_LGUI,  KC_RALT,  KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT
   ),
 
