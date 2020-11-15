@@ -1,5 +1,21 @@
 #include QMK_KEYBOARD_H
 
+enum layer_names {
+    _QW,
+	_CL
+};
+
+
+#define L_SQBRC   LALT(KC_LBRC)
+#define R_SQBRC   LALT(KC_RBRC)
+#define L_BRC     LALT(KC_QUOT)
+#define R_BRC     LALT(KC_BSLS)
+
+#define FN_TILDE  TD(TD_TILDE)
+#define FN_AT     TD(TD_AT)
+#define FN_DOLLAR TD(TD_DOLLAR)
+#define FN_PIPE   TD(TD_PIPE)
+
 // Tap Dance Definitions
 enum tapdance {
     TD_TILDE = 0,
@@ -73,16 +89,18 @@ qk_tap_dance_action_t tap_dance_actions[] = {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-  [0] = LAYOUT(
+  /* 0: QWERTY */
+  [_QW] = LAYOUT(
     KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_PSCR,  MO(1),    KC_DEL,
     KC_GRV,   KC_1,     KC_2,     KC_3,     KC_4,     KC_5,     KC_6,     KC_7,     KC_8,     KC_9,     KC_0,     KC_MINS,  KC_EQL,   KC_DEL,   KC_BSPC,  KC_HOME,
-    KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     LALT(KC_LBRC),  LALT(KC_RBRC),  LALT(KC_BSLS),            KC_PGUP,
-    KC_CAPS,  TD(TD_AT),     TD(TD_DOLLAR),     KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     TD(TD_PIPE),     TD(TD_TILDE),  LALT(KC_QUOT),                      KC_ENT,   KC_PGDN,
+    KC_TAB,   KC_Q,     KC_W,     KC_E,     KC_R,     KC_T,     KC_Y,     KC_U,     KC_I,     KC_O,     KC_P,     L_SQBRC,  R_SQBRC,  R_BRC,              KC_PGUP,
+    KC_CAPS,  FN_AT,    FN_DOLLAR,KC_D,     KC_F,     KC_G,     KC_H,     KC_J,     KC_K,     FN_PIPE,  FN_PIPE,  L_BRC,                        KC_ENT,   KC_PGDN,
     KC_LSFT,  MO(1),    KC_Z,     KC_X,     KC_C,     KC_V,     KC_B,     KC_N,     KC_M,     KC_COMM,  KC_DOT,   KC_SLSH,  KC_RSFT,            KC_UP,    KC_END,
-    KC_LCTL,  KC_LALT, KC_LGUI,                        KC_SPC,   KC_SPC,   KC_SPC,                       KC_LGUI, KC_RALT,     KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT
+    KC_LCTL,  KC_LALT,  KC_LGUI,                        KC_SPC,   KC_SPC,   KC_SPC,                     KC_LGUI,  KC_RALT,  KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT
   ),
 
-  [1] = LAYOUT(
+  /* 1: Custom */
+  [_CL] = LAYOUT(
     _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,
     _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  RESET,    _______,
     _______,  RGB_TOG,  RGB_MOD,  RGB_HUI,  RGB_HUD,  RGB_SAI,  RGB_SAD,  RGB_VAI,  RGB_VAD,  _______,  _______,  _______,  _______,  _______,            _______,
