@@ -71,22 +71,25 @@ qk_tap_dance_action_t tap_dance_actions[] = {
   [TD_PIPE] = ACTION_TAP_DANCE_FN(tap_dance_fn)
 };
 
-uint8_t saved_rgb_mode;
+/* https://docs.qmk.fm/#/feature_led_indicators?id=example-led_update_user-implementation */
+bool led_update_user(led_t led_state) {
+    static uint8_t prev_caps_state = 0;
+    static uint8_t saved_mode = 0;
+    static HSV saved_hsv = { 0, 0, 0 };
 
-void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case L_CLCK:
-    case R_CLCK:
-        if (record->event.pressed) {
-            if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
-                rgblight_mode(saved_rgb_mode);
-            } else {
-                saved_rgb_mode = rgblight_get_mode();
-                rgblight_mode(RGBLIGHT_MODE_BREATHING + 3);
-                rgblight_sethsv_orange();
-            }
-        }
-  }
+    if (prev_caps_state != led_state.caps_lock) {
+      if (led_state.caps_lock != 0) {
+        saved_mode = rgblight_get_mode();
+        saved_hsv = rgblight_get_hsv();
+        rgblight_mode(RGBLIGHT_MODE_BREATHING + 3);
+        rgblight_sethsv_red();
+      } else {
+        rgblight_mode(saved_mode);
+        rgblight_sethsv(saved_hsv.h, saved_hsv.s, saved_hsv.v);
+      }
+      prev_caps_state = led_state.caps_lock;
+    }
+    return true;
 }
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
