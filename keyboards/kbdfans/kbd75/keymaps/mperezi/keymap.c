@@ -89,6 +89,23 @@ qk_tap_dance_action_t tap_dance_actions[] = {
     [TD_PIPE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_pipe_finished, dance_pipe_reset),
 };
 
+uint8_t saved_rgb_mode;
+
+void post_process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case L_CLCK:
+    case R_CLCK:
+        if (record->event.pressed) {
+            if (host_keyboard_leds() & (1 << USB_LED_CAPS_LOCK)) {
+                rgblight_mode(saved_rgb_mode);
+            } else {
+                saved_rgb_mode = rgblight_get_mode();
+                rgblight_mode(RGBLIGHT_MODE_BREATHING + 3);
+                rgblight_sethsv_orange();
+            }
+        }
+  }
+}
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
