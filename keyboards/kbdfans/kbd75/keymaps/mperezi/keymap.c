@@ -3,8 +3,8 @@
 #include "keymap_spanish.h"
 
 enum layer_names {
-    _QW,
-	_CL
+  _QW,
+  _CL
 };
 
 #define FN_TILDE  TD(TD_TILDE)
@@ -17,72 +17,58 @@ enum layer_names {
 
 // Tap Dance Definitions
 enum tapdance {
-    TD_TILDE = 0,
-	TD_AT,
-	TD_DOLLAR,
-	TD_PIPE,
+  TD_TILDE,
+  TD_AT,
+  TD_DOLLAR,
+  TD_PIPE,
 };
 
-/* void dance_tap_with_mod_key_finished(qk_tap_dance_state_t *state, void *user_data) { */
-void dance_tap_double_mod_finished(uint8_t count, uint16_t kc1, uint16_t kc2, uint16_t kc_mod) {
-	if (count == 1) {
-		register_code16(kc1);
-	} else {
-		register_code16(kc_mod);
-		register_code16(kc2);
-	}
-}
-
-void dance_tap_double_mod_reset(uint8_t count, uint16_t kc1, uint16_t kc2, uint16_t kc_mod) {
-	if (count == 1) {
-		unregister_code16(kc1);
-	} else {
-		unregister_code16(kc_mod);
-		unregister_code16(kc2);
-	}
-}
-
-void dance_tilde_finished(qk_tap_dance_state_t *state, void *user_data) {
-	dance_tap_double_mod_finished(state->count, ES_NTIL, ES_NTIL, KC_ALGR);
-}
-
-void dance_tilde_reset(qk_tap_dance_state_t *state, void *user_data) {
-	dance_tap_double_mod_reset(state->count, ES_NTIL, ES_NTIL, KC_ALGR);
-}
-
-void dance_at_finished(qk_tap_dance_state_t *state, void *user_data) {
-	dance_tap_double_mod_finished(state->count, ES_A, ES_2, KC_ALGR);
-}
-
-void dance_at_reset(qk_tap_dance_state_t *state, void *user_data) {
-	dance_tap_double_mod_reset(state->count, ES_A, ES_2, KC_ALGR);
-}
-
-void dance_dollar_finished(qk_tap_dance_state_t *state, void *user_data) {
-	dance_tap_double_mod_finished(state->count, ES_S, ES_4, KC_RSFT);
-}
-
-void dance_dollar_reset(qk_tap_dance_state_t *state, void *user_data) {
-	dance_tap_double_mod_reset(state->count, ES_S, ES_4, KC_RSFT);
-}
-
-void dance_pipe_finished(qk_tap_dance_state_t *state, void *user_data) {
-	dance_tap_double_mod_finished(state->count, ES_L, ES_1, KC_ALGR);
-}
-
-void dance_pipe_reset(qk_tap_dance_state_t *state, void *user_data) {
-	dance_tap_double_mod_reset(state->count, ES_L, ES_1, KC_ALGR);
+void tap_dance_fn(qk_tap_dance_state_t *state, void *user_data) {
+  int count = state->count;
+  switch (state->keycode) {
+    // Tap once for ñ, twice for ~, three times for ~/
+    case FN_TILDE:
+      if (count == 1) {
+        SEND_STRING(SS_TAP(X_SCOLON));
+      } else if (count == 2)  {
+        SEND_STRING(SS_ALGR(SS_TAP(X_SCOLON)) SS_TAP(X_SPC));
+      } else if (count == 3) {
+        SEND_STRING(SS_ALGR(SS_TAP(X_SCOLON)) SS_RSFT(SS_TAP(X_7)));
+      }
+      break;
+    // Tap once for a, twice for @
+    case FN_AT:
+      if (count == 1) {
+        SEND_STRING(SS_TAP(X_A));
+      } else {
+        SEND_STRING(SS_ALGR(SS_TAP(X_2)));
+      }
+      break;
+    // Tap once for s, twice for $
+    case FN_DOLLAR:
+      if (count == 1) {
+        SEND_STRING(SS_TAP(X_S));
+      } else {
+        SEND_STRING(SS_RSFT(SS_TAP(X_4)));
+      }
+      break;
+    // Tap once for l, twice for |
+    case FN_PIPE:
+      if (count == 1) {
+        SEND_STRING(SS_TAP(X_L));
+      } else {
+        SEND_STRING(SS_ALGR(SS_TAP(X_1)));
+      }
+      break;
+  }
+  reset_tap_dance(state);
 }
 
 qk_tap_dance_action_t tap_dance_actions[] = {
-    // Tap once for ñ, twice for ~
-    [TD_TILDE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_tilde_finished, dance_tilde_reset),
-    // Tap once for a, twice for @
-    [TD_AT] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_at_finished, dance_at_reset),
-    // Tap once for s, twice for $
-    [TD_DOLLAR] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_dollar_finished, dance_dollar_reset),
-    // Tap once for l, twice for |
-    [TD_PIPE] = ACTION_TAP_DANCE_FN_ADVANCED(NULL, dance_pipe_finished, dance_pipe_reset),
+  [TD_TILDE] = ACTION_TAP_DANCE_FN(tap_dance_fn),
+  [TD_AT] = ACTION_TAP_DANCE_FN(tap_dance_fn),
+  [TD_DOLLAR] = ACTION_TAP_DANCE_FN(tap_dance_fn),
+  [TD_PIPE] = ACTION_TAP_DANCE_FN(tap_dance_fn)
 };
 
 uint8_t saved_rgb_mode;
