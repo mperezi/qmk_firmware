@@ -3,8 +3,8 @@
 #include "keymap_spanish.h"
 
 enum layer_names {
-  _QW,
-  _CL
+  _ISO,
+  _ANSI
 };
 
 #define FN_TILDE  TD(TD_TILDE)
@@ -107,23 +107,23 @@ bool led_update_user(led_t led_state) {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-  /* 0: QWERTY */
-  [_QW] = LAYOUT(
-    KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_PSCR,  MO(1),    KC_DEL,
+  /* 0: ISO ES */
+  [_ISO] = LAYOUT(
+    KC_ESC,   KC_F1,    KC_F2,    KC_F3,    KC_F4,    KC_F5,    KC_F6,    KC_F7,    KC_F8,    KC_F9,    KC_F10,   KC_F11,   KC_F12,   KC_SLCK,  KC_PSCR,    KC_INS,
     ES_BLSH,  ES_1,     ES_2,     ES_3,     ES_4,     ES_5,     ES_6,     ES_7,     ES_8,     ES_9,     ES_0,     ES_QUOT,  ES_IEXL,  KC_DEL,   KC_BSPC,  KC_HOME,
-    KC_TAB,   ES_Q,     ES_W,     ES_E,     ES_R,     ES_T,     ES_Y,     ES_U,     FN_EXCL,  ES_O,     ES_P,     ES_LBRC,  ES_RBRC,  ES_RCBR,            KC_PGUP,
-    KC_ESC,   FN_AT,    FN_DOLLAR,ES_D,     ES_F,     ES_G,     ES_H,     ES_J,     ES_K,     FN_PIPE,  FN_TILDE, ES_LCBR,                      KC_ENT,   KC_PGDN,
-    L_CLCK,   KC_GRV,   ES_Z,     ES_X,     ES_C,     ES_V,     ES_B,     ES_N,     ES_M,     ES_COMM,  ES_DOT,   ES_MINS,  R_CLCK,             KC_UP,    KC_END,
-    KC_LCTL,  KC_LALT,  KC_LGUI,                   KC_SPC,   LT(_CL, KC_SPC),   KC_SPC,                 KC_LGUI,  KC_RALT,  KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT
+    KC_TAB,   ES_Q,     ES_W,     ES_E,     ES_R,     ES_T,     ES_Y,     ES_U,     ES_I,     ES_O,     ES_P,     ES_GRV,   ES_PLUS,  ES_RCBR,            KC_DEL,
+    LT(_ANSI, KC_ESC),   ES_A,     ES_S,     ES_D,     ES_F,     ES_G,     ES_H,     ES_J,     ES_K,     ES_L,     FN_TILDE, ES_ACUT,                      KC_ENT,   RGB_HUI,
+    KC_LSFT,   KC_GRV,   ES_Z,     ES_X,     ES_C,     ES_V,     ES_B,     ES_N,     ES_M,     ES_COMM,  ES_DOT,   ES_MINS,  R_CLCK,            KC_UP,    RGB_SAI,
+    KC_LCTL,  KC_LALT,  KC_LGUI,                   KC_SPC,   KC_SPC,  KC_SPC,                           KC_LGUI,  KC_RALT,  KC_RCTL,  KC_LEFT,  KC_DOWN,  KC_RGHT
   ),
 
-  /* 1: Custom */
-  [_CL] = LAYOUT(
-    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  RGB_TOG,
-    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  RESET,    RGB_MOD,
-    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            RGB_RMOD,
-    _______,  _______,  _______,  _______,  _______,  _______,  KC_LEFT,  KC_DOWN,  KC_UP,    KC_RGHT,  _______,  ES_ACUT,                      _______,  _______,
-    _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,  _______,            RGB_VAI,  _______,
-    _______,  _______,  _______,                      _______,  _______,  _______,                      _______,  _______,  _______,  RGB_HUD,  RGB_VAD,  RGB_HUI
+  /* 1: ANSI */
+  [_ANSI] = LAYOUT(
+    _______,   _______,     _______,     _______,     _______,     _______,     _______,     _______,          _______,         _______,         _______,           _______,  _______,   _______,   _______,   _______,
+    _______,   _______,     _______,     _______,     _______,     _______,     _______,     _______,          RSFT(ES_8),      RSFT(ES_9),      _______,           _______,  _______,   _______,   RESET,     _______,
+    _______,   _______,     _______,     _______,     _______,     _______,     _______,     LALT(ES_ACUT),    LALT(ES_RCBR),   LALT(ES_GRV),    LALT(ES_PLUS),     _______,  _______,   _______,              _______,
+    _______,   LALT(ES_2),  RSFT(ES_4),  _______,     _______,     _______,     KC_LEFT,     KC_DOWN,          KC_UP,           KC_RGHT,         _______,           _______,                        _______,   RGB_HUD,
+    _______,   _______,     _______,     _______,     _______,     _______,     _______,     _______,          _______,         _______,         _______,           _______,  _______,              RGB_VAI,   RGB_SAD,
+    _______,   _______,     _______,                          _______,   _______,   _______,                                                     _______,           _______,  _______,   RGB_RMOD,  RGB_VAD,   RGB_MOD
   ),
 };
